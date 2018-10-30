@@ -22,7 +22,7 @@ const runSequence   = require('run-sequence');
 const jshint        = require('gulp-jshint');
 const sourcemaps    = require('gulp-sourcemaps');
 const notifier      = require('node-notifier');
-
+const del           = require('del');
 
 // ==========================================================================
 // Default Task

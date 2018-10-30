@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Svanmark/Wordpress-Plugin-Boilerplate",
   "devDependencies": {
+    "del": "^3.0.0",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean-css": "^3.10.0",
@@ -31,7 +32,6 @@
     "jshint": "^2.9.6",
     "node-notifier": "^5.2.1",
     "rev-del": "^1.0.5",
-    "run-sequence": "^2.2.1",
-    "del": "^3.0.0"
+    "run-sequence": "^2.2.1"
   }
 }
