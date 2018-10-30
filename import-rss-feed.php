@@ -33,5 +33,17 @@ $loader->addPrefix('ImportRssFeed', IMPORTRSSFEED_PATH);
 $loader->addPrefix('ImportRssFeed', IMPORTRSSFEED_PATH . 'source/php/');
 $loader->register();
 
+// Acf auto import and export
+add_action('plugins_loaded', function () {
+    $acfExportManager = new \AcfExportManager\AcfExportManager();
+    $acfExportManager->setTextdomain('import-rss-feed');
+    $acfExportManager->setExportFolder(IMPORTRSSFEED_PATH . 'acf-fields/');
+    $acfExportManager->autoExport(array(
+        'import-rss-feed-settings' => 'group_5bd2c7df04f83',
+    ));
+    $acfExportManager->import();
+});
+
 // Start application
 new ImportRssFeed\App();
+

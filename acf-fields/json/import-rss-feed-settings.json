@@ -1,0 +1,225 @@
+[{
+    "key": "group_5bd2c7df04f83",
+    "title": "Import RSS Feed - settings",
+    "fields": [
+        {
+            "key": "field_5bd2cc992a6e3",
+            "label": "RSS Feeds",
+            "name": "import_rss_feed",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_5bd2ccee2a6e5",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add feed",
+            "sub_fields": [
+                {
+                    "key": "field_5bd2ccee2a6e5",
+                    "label": "Name",
+                    "name": "name",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_5bd2ccca2a6e4",
+                    "label": "URL",
+                    "name": "url",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_5bd2cd1c2a6e6",
+                    "label": "Post Type",
+                    "name": "post_type",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "post": "Posts",
+                        "page": "Pages",
+                        "event": "Event",
+                        "ticket": "Tickets",
+                        "listing": "Listings",
+                        "my-post-type": "My Post Type"
+                    },
+                    "default_value": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 0,
+                    "return_format": "value",
+                    "ajax": 0,
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_5bd2ce8769988",
+                    "label": "Post status",
+                    "name": "post_status",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "publish": "Publish",
+                        "draft": "Draft"
+                    },
+                    "default_value": [
+                        "publish"
+                    ],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 0,
+                    "return_format": "value",
+                    "ajax": 0,
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_5bd705c0dfe9b",
+                    "label": "Post Author",
+                    "name": "post_author",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "role": "",
+                    "allow_null": 1,
+                    "multiple": 0,
+                    "return_format": "id"
+                }
+            ]
+        },
+        {
+            "key": "field_5bd2d4ef35289",
+            "label": "Enable recurring imports",
+            "name": "import_rss_feed_recurring_imports",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "On",
+            "ui_off_text": "Off"
+        },
+        {
+            "key": "field_5bd2d5993528a",
+            "label": "Import frequency",
+            "name": "import_rss_feed_recurring_imports_frequency",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5bd2d4ef35289",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "hourly": "Hourly",
+                "daily": "Daily"
+            },
+            "default_value": [
+                "daily"
+            ],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_5bd705165ec05",
+            "label": "Manual import",
+            "name": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "new_lines": "",
+            "esc_html": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "rss-importer"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": ""
+}]
+
