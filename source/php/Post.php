@@ -34,6 +34,8 @@ class Post
             'rss_author' => is_object($item->get_author()) ? get_object_vars($item->get_author()) : $item->get_author(),
             'rss_date' => strtotime($item->get_date('Y-m-d H:i:s'))
         );
+
+        do_action('ImportRssFeed/Post', $this, $item);
     }
 
     /**
