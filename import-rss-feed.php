@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       Import RSS Feed
- * Plugin URI:        (#plugin_url#)
- * Description:       Import content from RSS feeds to any post type.
+ * Plugin URI:        https://github.com/helsingborg-stad/import-rss-feed
+ * Description:       Probably the last Wordpress RSS importer. Import items from RSS feed to any post type.
  * Version:           1.0.0
  * Author:            Nikolas Ramstedt
- * Author URI:        (#plugin_author_url#)
+ * Author URI:        https://github.com/helsingborg-stad
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       import-rss-feed
