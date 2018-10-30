@@ -2,6 +2,9 @@
 
 Probably the last Wordpress RSS importer. Import items from RSS feed to any post type.
 
+## Dependencies
+[ACF Pro](https://www.advancedcustomfields.com/pro/ "Advanced custom fields Pro") is required to run this plugin.
+
 ## Actions
 
 ### ImportRssFeed/ImportManager/start/beforeUpdatePost
@@ -24,6 +27,18 @@ Do action after import
 ```php
 do_action('ImportRssFeed/ImportManager/start/afterUpdatePost', $post, $feed);
 ```
+
+### ImportRssFeed/Post
+
+Do action when mapping post object from RSS item data, can be used to manipulate the post object before import.
+
+- ```@param object $this``` - Post object (/ImportRssFeed/ImportManager/Post)
+- ```@param object $item``` - RSS item (SimplePie_Item)
+
+```php
+do_action('ImportRssFeed/Post', $this, $item);
+```
+
 ## Filters
 
 ### ImportRssFeed/OptionsPage/PostTypes
