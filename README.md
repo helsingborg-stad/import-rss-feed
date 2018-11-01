@@ -51,7 +51,7 @@ Filters avalible post types used when importing a RSS feed
 apply_filters('ImportRssFeed/OptionsPage/PostTypes', $postTypes);
 ```
 
-## TO DO's
+## To-Do's
 - Fix Simple Pie date error
 - Create and save log of import events from cron jobs
 - Display log of import events during manual import
