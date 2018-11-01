@@ -14,6 +14,7 @@ class App
         add_action('ImportRssFeed/ImportManager/start/afterUpdatePost', array($this, 'addSourceTerm'), 6, 2);
         add_action('wp_ajax_importRssFeed', array($this, 'rssImportAjaxHandler'));
         add_action('admin_enqueue_scripts', array($this, 'registerAssets'), 6);
+        add_filter('post_type_link', array($this, 'linkToRssSource'), 10, 2);
     }
 
     /**
@@ -81,6 +82,23 @@ class App
         $frequency = get_field('import_rss_feed_recurring_imports_frequency', 'options');
 
         wp_schedule_event(time(), $frequency, 'import_rss_feeds');
+    }
+
+    /**
+     * linkToRssSource($url, $post)
+     *
+     * Link to RSS item source when using get_permalink()
+     * @param string $url Permalink URL
+     * @param object $post WP Post object
+     * @return string
+     */
+    public function linkToRssSource($url, $post)
+    {
+        if (!is_admin()) {
+            $url = get_post_meta($post->ID, 'rss_link', true) ? get_post_meta($post->ID, 'rss_link', true) : $url;
+        }
+
+        return $url;
     }
 
     /**
