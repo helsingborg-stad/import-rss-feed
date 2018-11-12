@@ -30,11 +30,12 @@ class ImportManager
             if (!empty($feed->posts)) {
                 $this->foundPosts = $this->foundPosts + count($feed->posts);
 
+
                 foreach ($feed->posts as $post) {
 
                     do_action('ImportRssFeed/ImportManager/start/beforeUpdatePost', $post, $feed);
 
-                    $this->updatePost($post);
+                    $post = $this->updatePost($post);
 
                     do_action('ImportRssFeed/ImportManager/start/afterUpdatePost', $post, $feed);
                 }
@@ -55,26 +56,32 @@ class ImportManager
     public function updatePost(\ImportRssFeed\Post $post, $force = false)
     {
         $force = apply_filters('ImportRssFeed/ImportManager/updatePost/force', $force, $post);
-        $args = get_object_vars($post);
 
-        if ($post->postExists()) {
-            $postId = $post->getPostId();
+        if ($post->ID > 0) {
             $newRssDate = strtotime($post->post_date);
-            $oldRssDate = get_post_meta($postId, 'rss_date');
+            $oldRssDate = get_post_meta($post->ID, 'rss_date');
 
-            if ($oldRssDate && $newRssDate > $oldRssDate || $force) {
-                $args['ID'] = $postId;
-            } else {
-                return false;
+            if ($oldRssDate && $oldRssDate >= $newRssDate && !$force) {
+                return $post;
             }
         }
 
-        if ($args['ID'] == 0) {
-            $this->createdPosts++;
-        } else {
-            $this->updatedPosts++;
+        $args = get_object_vars($post);
+        $importedPostId = wp_insert_post(apply_filters('ImportRssFeed/ImportManager/updatePost/args', $args, $post, $force));
+
+        if (is_integer($importedPostId)) {
+            switch ($post->ID) {
+                case 0:
+                    $this->createdPosts++;
+                break;
+
+                default:
+                    $this->updatedPosts++;
+            }
+
+            $post->ID = $importedPostId;
         }
 
-        return wp_insert_post(apply_filters('ImportRssFeed/ImportManager/updatePost/args', $args, $post, $force));
+        return $post;
     }
 }

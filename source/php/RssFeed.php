@@ -4,6 +4,8 @@ namespace ImportRssFeed;
 
 class RssFeed
 {
+    private $itemQuantityLimit = 20;
+
     public $name = '';
 
     public $url = '';
@@ -14,11 +16,13 @@ class RssFeed
 
     public $post_author = 0;
 
-    public $posts = array();
-
     public $termId;
 
-    private $itemQuantityLimit = 20;
+    public $rss_thumbnail = 0;
+
+    public $opengraph_thumbnail = 0;
+
+    public $posts = array();
 
     public function __construct($args, int $quantityLimit = 20)
     {
@@ -79,14 +83,17 @@ class RssFeed
             foreach ($items as $item) {
                 $post = new \ImportRssFeed\Post($item);
 
-                //Append / Override common values from RSS feed
+                // Append/Override common values from RSS feed
                 $post->meta_input['rss_name'] = $this->name;
                 $post->meta_input['rss_url'] = $this->url;
                 $post->post_type = $this->post_type;
                 $post->post_status = $this->post_status;
                 $post->post_author = $this->post_author ? $this->post_author : 0;
 
-                $posts[] = $post;
+                // Add post ID if post already exists
+                $post->ID = $post->getPostId();
+
+                $posts[] = apply_filters('ImportRssFeed/RssFeed/mapPost', $post, $this);
             }
         }
 
