@@ -129,6 +129,52 @@
                     "allow_null": 1,
                     "multiple": 0,
                     "return_format": "id"
+                },
+                {
+                    "key": "field_5be55696bc8f6",
+                    "label": "Import RSS thumbnail",
+                    "name": "rss_thumbnail",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_5be556f7bc8f7",
+                    "label": "Look for OpenGraph thumbnail",
+                    "name": "opengraph_thumbnail",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_5be55696bc8f6",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
                 }
             ]
         },
