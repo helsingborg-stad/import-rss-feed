@@ -22,6 +22,8 @@ class Post
 
     public $meta_input = [];
 
+    private $simplePieItem;
+
     public function __construct(\SimplePie_Item $item)
     {
         $this->post_title = $item->get_title();
@@ -35,7 +37,14 @@ class Post
             'rss_date' => strtotime($item->get_date('Y-m-d H:i:s'))
         );
 
+        $this->simplePieItem = $item;
+
         do_action('ImportRssFeed/Post', $this, $item);
+    }
+
+    public function simplePieItem()
+    {
+        return $this->simplePieItem;
     }
 
     /**
