@@ -66,7 +66,7 @@ class Post
      * getPostId()
      *
      * Returns post id if it exists (based on post type & rss_id)
-     * @return boolean/int
+     * @return int
      */
     public function getPostId()
     {
@@ -79,14 +79,14 @@ class Post
             SELECT {$tablePrefix}posts.ID
             FROM {$tablePrefix}posts
             LEFT JOIN {$tablePrefix}postmeta ON {$tablePrefix}postmeta.post_id = {$tablePrefix}posts.ID
-            WHERE {$tablePrefix}postmeta.meta_value = '{$itemId}' AND {$tablePrefix}posts.post_type = '{$postType}'
+            WHERE {$tablePrefix}postmeta.meta_value = '{$itemId}' AND {$tablePrefix}posts.post_type = '{$postType}' AND {$tablePrefix}posts.post_status != 'trash'
         ";
         $results = $wpdb->get_results($sql, ARRAY_A);
 
         if (empty($results)) {
-            return false;
+            return 0;
         }
 
-        return $results[0]['ID'];
+        return (int) $results[0]['ID'];
     }
 }
