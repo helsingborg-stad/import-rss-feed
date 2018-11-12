@@ -11,10 +11,13 @@ class App
 
         add_action('import_rss_feeds', array($this, 'runImport'));
         add_action('acf/save_post', array($this, 'toggleCronImport'), 12, 0);
-        add_action('ImportRssFeed/ImportManager/start/afterUpdatePost', array($this, 'addSourceTerm'), 6, 2);
         add_action('wp_ajax_importRssFeed', array($this, 'rssImportAjaxHandler'));
         add_action('admin_enqueue_scripts', array($this, 'registerAssets'), 6);
-        add_filter('post_type_link', array($this, 'linkToRssSource'), 10, 2);
+        add_filter('post_type_link', array($this, 'replacePermalinksWithRssSource'), 10, 2);
+
+        //Additional actions during import
+        add_action('ImportRssFeed/ImportManager/start/afterUpdatePost', array($this, 'fetchSourceTerm'), 6, 2);
+        add_action('ImportRssFeed/ImportManager/start/afterUpdatePost', array($this, 'fetchThumbnail'), 6, 2);
     }
 
     /**
@@ -85,14 +88,14 @@ class App
     }
 
     /**
-     * linkToRssSource($url, $post)
+     * replacePermalinksWithRssSource($url, $post)
      *
-     * Link to RSS item source when using get_permalink()
+     * Returns RSS source URL instead of the post's URL when using get_permalink()
      * @param string $url Permalink URL
      * @param object $post WP Post object
      * @return string
      */
-    public function linkToRssSource($url, $post)
+    public function replacePermalinksWithRssSource($url, $post)
     {
         if (!is_admin()) {
             $url = get_post_meta($post->ID, 'rss_link', true) ? get_post_meta($post->ID, 'rss_link', true) : $url;
@@ -102,14 +105,50 @@ class App
     }
 
     /**
-     * addSourceTerm($post, $feed)
+     * fetchThumbnail($post, $feed)
+     *
+     * Adds RSS (or OpenGraph) thumbnail as featured image
+     * @param object $post RSS item converted to post object (\ImportRssFeed\Post)
+     * @param object $feed Parent object of RSS items  (\ImportRssFeed\RssFeed)
+     * @return void
+     */
+    public function fetchThumbnail(\ImportRssFeed\Post $post, \ImportRssFeed\RssFeed $feed)
+    {
+        //Make sure feed has enabled thumbnail import & post ID exists
+        if (!$feed->rss_thumbnail || $post->ID == 0) {
+            return;
+        }
+
+        if (!empty(get_post_thumbnail_id($post->ID))) {
+            return;
+        }
+
+        //RSS Thumbnail
+        $thumbnailSource = $post->simplePieItem()->get_enclosure()->get_thumbnail();
+
+        //OpenGraph falback
+        $thumbnailSource = (!$thumbnailSource) ? \ImportRssFeed\Helper\OpenGraph::fetch($post->simplePieItem()->get_permalink())->image : $thumbnailSource;
+
+        if (!$thumbnailSource) {
+            return;
+        }
+
+        $attachmentId = \ImportRssFeed\Helper\Attachment::insertFromUrl($thumbnailSource, $post->ID);
+
+        if ($attachmentId) {
+            set_post_thumbnail($post->ID, $attachmentId);
+        }
+    }
+
+    /**
+     * fetchSourceTerm($post, $feed)
      *
      * Adds RSS source as a term when importing post
      * @param object $post RSS item converted to post object (\ImportRssFeed\Post)
      * @param object $feed Parent object of RSS items  (\ImportRssFeed\RssFeed)
-     * @return boolean
+     * @return void
      */
-    public function addSourceTerm(\ImportRssFeed\Post $post,\ImportRssFeed\RssFeed $feed)
+    public function fetchSourceTerm(\ImportRssFeed\Post $post,\ImportRssFeed\RssFeed $feed)
     {
         $taxonomy = \ImportRssFeed\Taxonomy::$taxonomySlug;
         $postId = $post->getPostId();
