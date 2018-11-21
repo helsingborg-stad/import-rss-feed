@@ -1,0 +1,22 @@
+{
+    "name": "helsingborg-stad/import-rss-feed",
+    "description": "Probably the last Wordpress RSS importer. Import items from RSS feed to any post type.",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikolas Ramstedt",
+            "email": "nikolas.ramstedt@helsingborg.se"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/helsingborg-stad/import-rss-feed"
+        }
+    ],
+    "require": {
+        "composer/installers": "~1.0",
+        "helsingborg-stad/acf-export-manager": ">=1.0.0"
+    }
+}
